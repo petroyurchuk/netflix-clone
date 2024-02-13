@@ -12,7 +12,7 @@ const BgProvider: React.FC<BgProviderProps> = ({
   return (
     <div className="h-full w-full bg-[url('/images/main-bg.jpg')] bg-no-repeat bg-center bg-fixed bg-cover">
       <div
-        className={`bg-black w-full h-full ${removeBgOnMobile ? "lg:bg-opacity-90" : "lg:bg-opacity-60"}`}
+        className={`bg-black w-full h-full ${removeBgOnMobile ? "lg:bg-opacity-60" : "lg:bg-opacity-90"}`}
       >
         {children}
       </div>
