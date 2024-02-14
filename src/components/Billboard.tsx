@@ -1,5 +1,6 @@
-import getBillboardVideo from "@/actions/getBillboardVideo";
 import React from "react";
+import getBillboardVideo from "@/actions/getBillboardVideo";
+import PlayButton from "./PlayButton";
 
 type Props = {};
 
@@ -26,7 +27,7 @@ const Billboard: React.FC = async (props: Props) => {
           {billboardVideoData?.description}
         </p>
         <div className="flex items-center mt-3 md:mt-4 gap-3">
-          {/* <PlayButton movieId={billboardVideData?.id} /> */}
+          <PlayButton movieId={billboardVideoData?.id} />
         </div>
       </div>
     </div>
