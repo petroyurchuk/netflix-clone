@@ -16,7 +16,7 @@ const NavbarItem: React.FC<NavbarItemProps> = ({
   return (
     <li
       onClick={() => handleClick(path)}
-      className={`font-bold ${active ? "cursor-default border-b-2 pb-[1px]" : "text-gray-100/75 hover:text-white cursor-pointer transition"}`}
+      className={`font-bold text-white ${active ? "cursor-default border-b-2 pb-[1px]" : "text-gray-100/75 hover:text-white cursor-pointer transition"}`}
     >
       {label}
     </li>

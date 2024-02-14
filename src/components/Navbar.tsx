@@ -1,11 +1,13 @@
 "use client";
 import React from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { signOut } from "next-auth/react";
 import Image from "next/image";
 import NavbarItem from "@/components/NavbarItem";
 
 type NavbarProps = {
   username?: string;
+  image?: string | null;
 };
 
 enum NavbarLinks {
@@ -14,7 +16,7 @@ enum NavbarLinks {
   "/favorites" = "Улюблені",
 }
 
-const Navbar: React.FC<NavbarProps> = ({ username }) => {
+const Navbar: React.FC<NavbarProps> = ({ username, image }) => {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -48,7 +50,7 @@ const Navbar: React.FC<NavbarProps> = ({ username }) => {
             <div className="flex  items-center gap-4">
               <Image
                 className="h-12 w-12 rounded-full"
-                src="/images/devbro.png"
+                src={image || "/images/devbro.png"}
                 width={75}
                 height={75}
                 alt="avatar"
@@ -56,7 +58,7 @@ const Navbar: React.FC<NavbarProps> = ({ username }) => {
               <button
                 className="flex items-center bg-red-600 py-1 px-4 text-white font-semibold rounded-[4px]"
                 onClick={() => {
-                  console.log("Logged out");
+                  signOut({ callbackUrl: "/" });
                 }}
               >
                 Вийти
