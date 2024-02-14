@@ -1,10 +1,15 @@
 "use client";
+
 import React from "react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
+
 import Image from "next/image";
-import BgProvider from "@/components/BgProvider";
 import { FaGoogle, FaGithub } from "react-icons/fa";
+
+import BgProvider from "@/components/BgProvider";
 import Input from "@/components/Input";
+import axios from "axios";
 
 type VariantType = "login" | "register";
 type FormFieldsType = {
@@ -21,7 +26,6 @@ const AuthPage: React.FC = () => {
     email: "",
     password: "",
   });
-
   const handleVariantChange = () => {
     setVariant((prevVariant) =>
       prevVariant === "login" ? "register" : "login"
@@ -35,8 +39,26 @@ const AuthPage: React.FC = () => {
       };
     });
   };
-  const login = () => {};
-  const register = () => {};
+  const login = async () => {
+    try {
+      await signIn("credentials", {
+        email: formFields.email,
+        password: formFields.password,
+        redirect: true,
+        callbackUrl: "/home",
+      });
+    } catch (error) {
+      console.log("login error", error);
+    }
+  };
+  const register = async () => {
+    try {
+      await axios.post("/api/register", formFields);
+      login();
+    } catch (error) {
+      console.log("register error", error);
+    }
+  };
 
   return (
     <BgProvider removeBgOnMobile>
@@ -54,7 +76,7 @@ const AuthPage: React.FC = () => {
       <div className="flex justify-center">
         <div className="bg-black/70 p-16 self-center mt-2 lg:w-2/5 lg:max-w-md rounded-md w-full">
           <h2>{variant === "login" ? "Увійти" : "Зареєструватися"}</h2>
-          <form className="flex flex-col gap-4">
+          <div className="flex flex-col gap-4">
             {variant === "register" && (
               <Input
                 id="name"
@@ -74,25 +96,25 @@ const AuthPage: React.FC = () => {
               onChange={handleChange}
             />
             <Input
-              id="pass"
+              id="password"
               type="password"
               label="Пароль"
               name="password"
               value={formFields?.password}
               onChange={handleChange}
             />
-            <button
-              className="bg-red-600 text-white rounded-md w-full mt-2 hover:bg-red-700 transition py-3"
-              type="submit"
-            >
-              {variant === "login" ? "Увійти" : "Зареєструватися"}
-            </button>
-          </form>
+          </div>
+          <button
+            className="bg-red-600 text-white rounded-md w-full mt-10 hover:bg-red-700 transition py-3"
+            onClick={variant === "login" ? login : register}
+          >
+            {variant === "login" ? "Увійти" : "Зареєструватися"}
+          </button>
           <div className="flex items-center gap-4 mt-8 justify-center">
             <div
               className="w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition"
               onClick={() => {
-                console.log("Google signed in");
+                signIn("google", { callbackUrl: "/home" });
               }}
             >
               <FaGoogle size={32} />
@@ -100,7 +122,7 @@ const AuthPage: React.FC = () => {
             <div
               className="w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition"
               onClick={() => {
-                console.log("Google signed in");
+                signIn("github", { callbackUrl: "/home" });
               }}
             >
               <FaGithub size={32} />
