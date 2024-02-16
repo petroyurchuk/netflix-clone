@@ -4,6 +4,7 @@ import { Movie } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { BsFillPlayCircleFill as PlayIcon } from "react-icons/bs";
+import FavoriteButton from "./FavoriteButton";
 
 type MovieCardProps = {
   movieData: Movie;
@@ -37,7 +38,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movieData, isFavorite }) => {
                 className="cursor-pointer w-6 h-6 lg:w-10 lg:h-10 rounded-full flex justify-center items-center transition text-white hover:text-red-500"
                 onClick={() => router.push(`/watch/${movieData.id}`)}
               />
-              {/* <FavoriteButton movieId={movieData.id} isFavorite={isFavorite} /> */}
+              <FavoriteButton movieId={movieData.id} isFavorite={isFavorite} />
             </div>
 
             <div className="flex mt-4 gap-2 items-center ">
